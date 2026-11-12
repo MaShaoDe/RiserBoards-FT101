@@ -68,8 +68,8 @@ Finger zone: 11 mm long (insertion depth 8 to 10 mm plus 1 mm reserve), measured
 | Test points | One solder pad per contact on both sides, in line with the connector contact. No extra ground pads: use the test pad of a ground pin. |
 | Pin numbers | Not printed. The technician reads the number at the pin of the plugged card. Reason: the numbering direction differs between cards (see below) and card revisions are unknown. |
 | Type names | RB10, RB14, RB18, RB22 (RB = riser board, number = contacts per side) |
-| Silkscreen, centre | Large type name (e.g. RB18), line 1 "RISERBOARD FOR YAESU TRANSCEIVERS", line 2 "FT-101 B E EE EX F FE FX / SOMMERKAMP FT-277", COMPONENT SIDE with arrow towards the radio |
-| Silkscreen, side edges | Rotated 90 degrees along the edge, about 1.5 mm high, at least 0.3 mm from the edge. Left: card names of the variant. Right: version, CERN-OHL-P-2.0, github.com/MaShaoDe/RiserBoards-FT101 (V0.1 as produced: github.com/MaShaoDe/HAM-Radio) |
+| Silkscreen, centre | Large type name (e.g. RB18), "RISERBOARD FOR / YAESU TRANSCEIVERS" (2 lines), "FT-101 B E EE EX F FE FX / SOMMERKAMP FT-277" (2 lines), COMPONENT SIDE with arrow and TO RADIO, copyright (2 lines), version and license. Texts are scaled to the board width. |
+| Silkscreen, side edges | Rotated 90 degrees along the edge, 2.2 mm high (scaled down if too long), at least 0.3 mm from the edge. Left: card names of the variant. Right: "GitHub: RiserBoards-FT101" (V0.1 as produced: github.com/MaShaoDe/HAM-Radio) |
 | Silkscreen, back | Same content, mirrored so it reads from the back. Nothing in the finger area. |
 | Insulation | Solder mask on both sides over all traces, green or black (matt is not offered in the JLCPCB standard service). Open only at fingers, connector pads and test pads. No extra lacquer needed. Protects against scratches and accidental touch at low voltage, it is not a high voltage insulation. |
 | Robustness | 2 mm traces, copper at least 0.5 mm from the board edge (KiCad default), rounded corners |

@@ -17,6 +17,7 @@ For cards: PB-1183B (IF), PB-1315A (AF)
 | `gerber/` | The same Gerber files, unpacked |
 | `gerber-front.png`, `gerber-back.png` | Rendered from the Gerber files |
 | `preview.png` | Quick preview from the generator |
+| `riser-2x22_V0.2.kicad_pcb`, `preview_V0.2.png` | V0.2 (new silkscreen, see CHANGELOG), Gerber files pending |
 | `../tools/gen_riser.py` | Generator. `python3 gen_riser.py 22` rebuilds both files. |
 
 ## Board

@@ -14,7 +14,7 @@ import uuid
 from pathlib import Path
 
 VERSION = "V0.2"
-DATE = "2026-11-11"
+DATE = "2026-11-12"
 
 PITCH = 3.96
 LENGTH = 105.0          # finger tip to connector edge
@@ -36,8 +36,9 @@ VARIANTS = {
     22: dict(width=89.0, cards="PB-1183B  PB-1315A"),
 }
 
-RIGHT = "github.com/MaShaoDe/RiserBoards-FT101"
-COPY = "Copyright 2026 FerienBSD aka Marcel Sauder"
+RIGHT = "GitHub: RiserBoards-FT101"   # short, people search for it
+COPY1 = "Copyright 2026"
+COPY2 = "FerienBSD aka Marcel Sauder"
 LIC = f"{VERSION}  CERN-OHL-P-2.0"
 
 # centre silkscreen: (text, y, size, thickness or None)
@@ -55,8 +56,9 @@ def centre_lines(n, sidetext, usable=None):
         ("SOMMERKAMP FT-277", 48.5, 2.5, 0.35),
         (sidetext, 59, 4.5, 0.6),
         ("TO RADIO", 79, 3.5, 0.5),
-        (COPY, 85, 1.5, None),
-        (LIC, 88, 1.5, None),
+        (COPY1, 83.5, 1.5, None),
+        (COPY2, 86, 1.5, None),
+        (LIC, 88.5, 1.5, None),
     ]
     if usable is None:
         return lines
@@ -69,6 +71,11 @@ def centre_lines(n, sidetext, usable=None):
     for (t, y, size, th), k in zip(lines, ks):
         out.append((t, y, round(size * k, 2), None if th is None else round(th * k, 2)))
     return out
+
+
+def side_size(t, length):
+    """Side text size, scaled down if the text is longer than the edge."""
+    return round(min(SIDE_SIZE, length / (len(t) * CHAR_W)), 2)
 
 
 def usable_width(xs, ht):
@@ -113,7 +120,7 @@ def build(n):
     w('(kicad_pcb (version 20240108) (generator "gen_riser") (generator_version "8.0")')
     w('  (general (thickness 1.6) (legacy_teardrops no))')
     w('  (paper "A4")')
-    w('  (title_block (title "RB%d riser board for Yaesu FT-101") (date "%s") (rev "%s") (company "FerienBSD aka Marcel Sauder") (comment 1 "Author: Marcel Sauder (MaShaoDe)") (comment 2 "License: CERN-OHL-P-2.0") (comment 3 "github.com/MaShaoDe/HAM-Radio"))' % (n, DATE, VERSION))
+    w('  (title_block (title "RB%d riser board for Yaesu FT-101") (date "%s") (rev "%s") (company "FerienBSD aka Marcel Sauder") (comment 1 "Author: Marcel Sauder (MaShaoDe)") (comment 2 "License: CERN-OHL-P-2.0") (comment 3 "github.com/MaShaoDe/RiserBoards-FT101"))' % (n, DATE, VERSION))
     w('''  (layers
     (0 "F.Cu" signal) (31 "B.Cu" signal)
     (32 "B.Adhes" user "B.Adhesive") (33 "F.Adhes" user "F.Adhesive")
@@ -195,7 +202,8 @@ def build(n):
           f'(layer "{layer}") (uuid "{u()}"))')
 
     side_x = (xs[-1] + TRACE_W / 2 + ht) / 2      # middle of the side margin
-    side_y = (TP_Y + TP_D / 2 + y_step_start) / 2 + 2
+    side_y = (TP_Y + TP_D / 2 + y_step_start) / 2
+    side_len = y_step_start - (TP_Y + TP_D / 2) - 2.0   # 1 mm free at both ends
     for layer, sidetext in (("F.SilkS", "COMPONENT SIDE"), ("B.SilkS", "REAR SIDE")):
         sgn = 1 if layer == "F.SilkS" else -1     # back: left and right swap
         for t, y, size, th in centre_lines(n, sidetext, usable_width(xs, ht)):
@@ -204,8 +212,8 @@ def build(n):
         silk_line((ax0, ay0), (ax1, ay1), layer, 0.5)
         silk_line((-hs, ay1 - hs), (ax1, ay1), layer, 0.5)
         silk_line((hs, ay1 - hs), (ax1, ay1), layer, 0.5)
-        text(v["cards"], -sgn * side_x, side_y, SIDE_SIZE, layer, angle=90)
-        text(RIGHT, sgn * side_x, side_y, SIDE_SIZE, layer, angle=90)
+        for t, sx_ in ((v["cards"], -sgn * side_x), (RIGHT, sgn * side_x)):
+            text(t, sx_, side_y, side_size(t, side_len), layer, angle=90)
 
     # fabrication notes outside the board
     notes = "\\n".join([
@@ -270,9 +278,10 @@ def preview(n, g, path):
     (ax0, ay0), (ax1, ay1), hs = ARROW
     ax.annotate("", xy=(ax1, ay1), xytext=(ax0, ay0), arrowprops=dict(arrowstyle="-|>", color="white", lw=2.5, mutation_scale=20))
     sx = (g["xs"][-1] + TRACE_W / 2 + ht) / 2
-    sy = (TP_Y + TP_D / 2 + g["y1"]) / 2 + 2
-    ax.text(-sx, sy, g["cards"], fontsize=SIDE_SIZE * k, rotation=90, **kw)
-    ax.text(sx, sy, RIGHT, fontsize=SIDE_SIZE * k, rotation=90, **kw)
+    sy = (TP_Y + TP_D / 2 + g["y1"]) / 2
+    sl = g["y1"] - (TP_Y + TP_D / 2) - 2.0
+    ax.text(-sx, sy, g["cards"], fontsize=side_size(g["cards"], sl) * k, rotation=90, **kw)
+    ax.text(sx, sy, RIGHT, fontsize=side_size(RIGHT, sl) * k, rotation=90, **kw)
     ax.set_xlim(-ht - 6, ht + 6)
     ax.set_ylim(LENGTH + 5, -8)
     ax.set_aspect("equal")
@@ -288,8 +297,9 @@ def main():
     outdir.mkdir(parents=True, exist_ok=True)
     s, g = build(n)
     check_parens(s)
-    (outdir / f"riser-2x{n}.kicad_pcb").write_text(s)
-    preview(n, g, outdir / "preview.png")
+    # V0.1 files keep their old names, newer versions carry the version
+    (outdir / f"riser-2x{n}_{VERSION}.kicad_pcb").write_text(s)
+    preview(n, g, outdir / f"preview_{VERSION}.png")
     print("written", outdir)
 
 
