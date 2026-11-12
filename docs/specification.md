@@ -69,14 +69,14 @@ Finger zone: 11 mm long (insertion depth 8 to 10 mm plus 1 mm reserve), measured
 | Pin numbers | Not printed. The technician reads the number at the pin of the plugged card. Reason: the numbering direction differs between cards (see below) and card revisions are unknown. |
 | Type names | RB10, RB14, RB18, RB22 (RB = riser board, number = contacts per side) |
 | Silkscreen, centre | Large type name (e.g. RB18), line 1 "RISERBOARD FOR YAESU TRANSCEIVERS", line 2 "FT-101 B E EE EX F FE FX / SOMMERKAMP FT-277", COMPONENT SIDE with arrow towards the radio |
-| Silkscreen, side edges | Rotated 90 degrees along the edge, about 1.5 mm high, at least 0.3 mm from the edge. Left: card names of the variant. Right: version, CERN-OHL-P-2.0, github.com/MaShaoDe/HAM-Radio |
+| Silkscreen, side edges | Rotated 90 degrees along the edge, about 1.5 mm high, at least 0.3 mm from the edge. Left: card names of the variant. Right: version, CERN-OHL-P-2.0, github.com/MaShaoDe/RiserBoards-FT101 (V0.1 as produced: github.com/MaShaoDe/HAM-Radio) |
 | Silkscreen, back | Same content, mirrored so it reads from the back. Nothing in the finger area. |
 | Insulation | Solder mask on both sides over all traces, green or black (matt is not offered in the JLCPCB standard service). Open only at fingers, connector pads and test pads. No extra lacquer needed. Protects against scratches and accidental touch at low voltage, it is not a high voltage insulation. |
 | Robustness | 2 mm traces, copper at least 0.5 mm from the board edge (KiCad default), rounded corners |
 | Fingers | Electroplated hard gold on nickel, 30 degree chamfer, no solder mask, pads 0.6 mm back from the tip |
 | Manufacturing | Shenzhen PCB makers (JLCPCB, PCBWay), bare boards only |
 | Assembly | Connectors bought from a distributor and soldered by hand by the builder. Reason: JLCPCB requires 2.5 mm from part body to board edge and has no 3.96 mm extender connector in its library. |
-| Copyright notice | Copyright 2026 Marcel Sauder, CERN-OHL-P-2.0 (silkscreen) |
+| Copyright notice | Copyright 2026 FerienBSD aka Marcel Sauder, CERN-OHL-P-2.0 (silkscreen, from V0.2; V0.1 as produced: Copyright 2026 Marcel Sauder) |
 
 ## Compatible radios
 

@@ -13,7 +13,7 @@ import sys
 import uuid
 from pathlib import Path
 
-VERSION = "V0.1"
+VERSION = "V0.2"
 DATE = "2026-11-11"
 
 PITCH = 3.96
@@ -36,8 +36,8 @@ VARIANTS = {
     22: dict(width=89.0, cards="PB-1183B  PB-1315A"),
 }
 
-RIGHT = "github.com/MaShaoDe/HAM-Radio"
-COPY = "Copyright 2026 Marcel Sauder"
+RIGHT = "github.com/MaShaoDe/RiserBoards-FT101"
+COPY = "Copyright 2026 FerienBSD aka Marcel Sauder"
 LIC = f"{VERSION}  CERN-OHL-P-2.0"
 
 # centre silkscreen: (text, y, size, thickness or None)
@@ -113,7 +113,7 @@ def build(n):
     w('(kicad_pcb (version 20240108) (generator "gen_riser") (generator_version "8.0")')
     w('  (general (thickness 1.6) (legacy_teardrops no))')
     w('  (paper "A4")')
-    w('  (title_block (title "RB%d riser board for Yaesu FT-101") (date "%s") (rev "%s") (company "Marcel Sauder") (comment 1 "Author: Marcel Sauder (MaShaoDe)") (comment 2 "License: CERN-OHL-P-2.0") (comment 3 "github.com/MaShaoDe/HAM-Radio"))' % (n, DATE, VERSION))
+    w('  (title_block (title "RB%d riser board for Yaesu FT-101") (date "%s") (rev "%s") (company "FerienBSD aka Marcel Sauder") (comment 1 "Author: Marcel Sauder (MaShaoDe)") (comment 2 "License: CERN-OHL-P-2.0") (comment 3 "github.com/MaShaoDe/HAM-Radio"))' % (n, DATE, VERSION))
     w('''  (layers
     (0 "F.Cu" signal) (31 "B.Cu" signal)
     (32 "B.Adhes" user "B.Adhesive") (33 "F.Adhes" user "F.Adhesive")
