@@ -4,7 +4,6 @@
 
 All four variants RB10, RB14, RB18, RB22 ordered: FR-4 1.6 mm, ENIG, hard gold fingers, 30 degree bevel. From this version on only the Gerber files are published (`hardware/riser-2xNN/RBNN_V0.3_gerber.zip`), not the design files. The fabrication specification for any PCB maker is in `docs/ordering.md`.
 
-
 Less is more: the RB18 V0.1 prototype showed that the silkscreen was too busy.
 
 - Component side: only the type (e.g. RB18), "RISERBOARD FOR / YAESU TRANSCEIVERS", "COMPONENT SIDE" with arrow and "TO RADIO". Model line, copyright and side texts removed.
@@ -21,5 +20,4 @@ Less is more: the RB18 V0.1 prototype showed that the silkscreen was too busy.
 
 ## V0.1
 
-First release. RB18: 5 prototypes produced with ENIG surface, without the hard gold finger option and without bevel; built and working. Gerber ZIP in `hardware/archive/`. The boards already in production keep their silkscreen as produced:
-"Copyright 2026 Marcel Sauder" and github.com/MaShaoDe/HAM-Radio. The files in `hardware/riser-2x*/` are V0.1 and stay unchanged.
+First release. RB18: 5 prototypes produced with ENIG surface, without the hard gold finger option and without bevel; connectors soldered. Silkscreen as produced: "Copyright 2026 Marcel Sauder" and github.com/MaShaoDe/HAM-Radio. Gerber ZIP in `hardware/archive/`.
