@@ -1,5 +1,15 @@
 # Changelog
 
+## V0.3 (KiCad files generated, DRC and Gerber export pending)
+
+Less is more: the RB18 V0.1 prototype showed that the silkscreen was too busy.
+
+- Component side: only the type (e.g. RB18), "RISERBOARD FOR / YAESU TRANSCEIVERS", "COMPONENT SIDE" with arrow and "TO RADIO". Model line, copyright and side texts removed.
+- Rear side: type, "RISERBOARD FOR / YAESU TRANSCEIVERS", "FT-101 SERIES / SOMMERKAMP FT-277 SERIES", copyright and license above "REAR SIDE", arrow, "TO RADIO". Side edges: card names and "GitHub: RiserBoards-FT101".
+- Card names without revision letter: PB-1180, PB-1181, PB-1183, PB-1184, PB-1315 (fits all revisions).
+- Generator preview shows both sides.
+- New files per variant: `riser-2xNN_V0.3.kicad_pcb` and `preview_V0.3.png`. V0.2 was never produced and is replaced by V0.3.
+
 ## V0.2 (KiCad files generated, DRC and Gerber export pending)
 
 - Silkscreen: copyright on two lines, "Copyright 2026" and "FerienBSD aka Marcel Sauder", so it stays at least 1.4 mm high even on the narrow RB10.

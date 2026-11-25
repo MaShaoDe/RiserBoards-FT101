@@ -13,8 +13,8 @@ import sys
 import uuid
 from pathlib import Path
 
-VERSION = "V0.2"
-DATE = "2026-11-12"
+VERSION = "V0.3"
+DATE = "2026-11-25"
 
 PITCH = 3.96
 LENGTH = 105.0          # finger tip to connector edge
@@ -31,9 +31,9 @@ TP_D, TP_Y = 2.6, 12.0
 
 VARIANTS = {
     10: dict(width=42.0, cards="PB-1292"),
-    14: dict(width=57.0, cards="PB-1184A"),
-    18: dict(width=73.0, cards="PB-1180B  PB-1181B  PB-1314"),
-    22: dict(width=89.0, cards="PB-1183B  PB-1315A"),
+    14: dict(width=57.0, cards="PB-1184"),
+    18: dict(width=73.0, cards="PB-1180  PB-1181  PB-1314"),
+    22: dict(width=89.0, cards="PB-1183  PB-1315"),
 }
 
 RIGHT = "GitHub: RiserBoards-FT101"   # short, people search for it
@@ -46,31 +46,41 @@ SIDE_SIZE = 2.2
 CHAR_W = 1.0   # KiCad stroke font: text width is about chars x size
 
 
-def centre_lines(n, sidetext, usable=None):
-    """Centre texts; each line is scaled down if it is wider than usable."""
-    lines = [
-        (f"RB{n}", 24, 7.0, 1.0),
-        ("RISERBOARD FOR", 34, 3.5, 0.5),
-        ("YAESU TRANSCEIVERS", 39, 3.5, 0.5),
-        ("FT-101 B E EE EX F FE FX", 44.5, 2.5, 0.35),
-        ("SOMMERKAMP FT-277", 48.5, 2.5, 0.35),
-        (sidetext, 59, 4.5, 0.6),
-        ("TO RADIO", 79, 3.5, 0.5),
-        (COPY1, 83.5, 1.5, None),
-        (COPY2, 86, 1.5, None),
-        (LIC, 88.5, 1.5, None),
-    ]
+def centre_lines(n, side, usable=None):
+    """Centre texts of one side ("F" or "B").
+
+    Entries: (text, y, size, thickness or None, group). Lines of the same
+    group share one size; a line is scaled down if wider than usable.
+    """
+    if side == "F":     # component side: short and clear
+        lines = [
+            (f"RB{n}", 26, 7.0, 1.0, "rb"),
+            ("RISERBOARD FOR", 37, 3.5, 0.5, "title"),
+            ("YAESU TRANSCEIVERS", 42, 3.5, 0.5, "title"),
+            ("COMPONENT SIDE", 57, 4.5, 0.6, "side"),
+            ("TO RADIO", 79, 3.5, 0.5, "radio"),
+        ]
+    else:               # rear side: all the details
+        lines = [
+            (f"RB{n}", 24, 7.0, 1.0, "rb"),
+            ("RISERBOARD FOR", 33, 3.5, 0.5, "title"),
+            ("YAESU TRANSCEIVERS", 38, 3.5, 0.5, "title"),
+            ("FT-101 SERIES", 43.5, 2.5, 0.35, "series"),
+            ("SOMMERKAMP FT-277 SERIES", 47.5, 2.5, 0.35, "series"),
+            (COPY1, 53, 1.5, None, "copy"),
+            (COPY2, 55.5, 1.5, None, "copy"),
+            (LIC, 58, 1.5, None, "copy"),
+            ("REAR SIDE", 65, 4.5, 0.6, "side"),
+            ("TO RADIO", 85, 3.5, 0.5, "radio"),
+        ]
     if usable is None:
-        return lines
-    ks = [min(1.0, usable / (len(t) * size * CHAR_W)) for t, y, size, th in lines]
-    for group in ((1, 2), (3, 4)):          # title pair and model pair share one size
-        m = min(ks[i] for i in group)
-        for i in group:
-            ks[i] = m
-    out = []
-    for (t, y, size, th), k in zip(lines, ks):
-        out.append((t, y, round(size * k, 2), None if th is None else round(th * k, 2)))
-    return out
+        return [l[:4] for l in lines]
+    k = {}
+    for t, y, size, th, g in lines:
+        k[g] = min(k.get(g, 1.0), usable / (len(t) * size * CHAR_W))
+    return [(t, y, round(size * min(1.0, k[g]), 2),
+             None if th is None else round(th * min(1.0, k[g]), 2))
+            for t, y, size, th, g in lines]
 
 
 def side_size(t, length):
@@ -78,10 +88,12 @@ def side_size(t, length):
     return round(min(SIDE_SIZE, length / (len(t) * CHAR_W)), 2)
 
 
-def usable_width(xs, ht):
+def usable_width(xs, ht, side="B"):
+    if side == "F":                 # no side texts on the component side
+        return 2 * (ht - 2.0)
     side_x = (xs[-1] + TRACE_W / 2 + ht) / 2
     return 2 * (side_x - SIDE_SIZE / 2 - 1.0)
-ARROW = ((0, 63.5), (0, 74.5), 2.5)   # start, tip, head size
+ARROWS = {"F": ((0, 62), (0, 74.5), 2.5), "B": ((0, 69.5), (0, 80.5), 2.5)}   # start, tip, head
 
 OX, OY = 100.0, 40.0    # placement on the KiCad sheet
 
@@ -204,16 +216,17 @@ def build(n):
     side_x = (xs[-1] + TRACE_W / 2 + ht) / 2      # middle of the side margin
     side_y = (TP_Y + TP_D / 2 + y_step_start) / 2
     side_len = y_step_start - (TP_Y + TP_D / 2) - 2.0   # 1 mm free at both ends
-    for layer, sidetext in (("F.SilkS", "COMPONENT SIDE"), ("B.SilkS", "REAR SIDE")):
-        sgn = 1 if layer == "F.SilkS" else -1     # back: left and right swap
-        for t, y, size, th in centre_lines(n, sidetext, usable_width(xs, ht)):
+    for side, layer in (("F", "F.SilkS"), ("B", "B.SilkS")):
+        sgn = -1                                  # side texts only on the back
+        for t, y, size, th in centre_lines(n, side, usable_width(xs, ht, side)):
             text(t, 0, y, size, layer, thick=th)
-        (ax0, ay0), (ax1, ay1), hs = ARROW
+        (ax0, ay0), (ax1, ay1), hs = ARROWS[side]
         silk_line((ax0, ay0), (ax1, ay1), layer, 0.5)
         silk_line((-hs, ay1 - hs), (ax1, ay1), layer, 0.5)
         silk_line((hs, ay1 - hs), (ax1, ay1), layer, 0.5)
-        for t, sx_ in ((v["cards"], -sgn * side_x), (RIGHT, sgn * side_x)):
-            text(t, sx_, side_y, side_size(t, side_len), layer, angle=90)
+        if side == "B":
+            for t, sx_ in ((v["cards"], -sgn * side_x), (RIGHT, sgn * side_x)):
+                text(t, sx_, side_y, side_size(t, side_len), layer, angle=90)
 
     # fabrication notes outside the board
     notes = "\\n".join([
@@ -255,40 +268,42 @@ def check_parens(s):
 
 
 def preview(n, g, path):
+    """Both sides; the rear side is drawn as seen from the back."""
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     from matplotlib.patches import Rectangle, Circle, Polygon
 
     hf, ht = g["wf"] / 2, g["wt"] / 2
-    r = CORNER_R
     outline = [(-ht, 0), (ht, 0), (ht, g["y1"]), (hf, g["y2"]), (hf, LENGTH),
                (-hf, LENGTH), (-hf, g["y2"]), (-ht, g["y1"])]
-    fig, ax = plt.subplots(figsize=(7, 9))
-    ax.add_patch(Polygon(outline, closed=True, fc="#1f3b2d", ec="black", lw=1.5))
-    for x in g["xs"]:
-        ax.add_patch(Rectangle((x - TRACE_W / 2, g["cy"]), TRACE_W, g["fy"] - g["cy"], fc="#3f6b52", ec="none"))
-        ax.add_patch(Rectangle((x - FINGER_W / 2, g["fy"] - FINGER_L / 2), FINGER_W, FINGER_L, fc="#d4af37", ec="none"))
-        ax.add_patch(Rectangle((x - CONN_W / 2, g["cy"] - CONN_L / 2), CONN_W, CONN_L, fc="#c0c0c0", ec="none"))
-        ax.add_patch(Circle((x, TP_Y), TP_D / 2, fc="#c0c0c0", ec="none"))
+    fig, axs = plt.subplots(1, 2, figsize=(12, 9))
     kw = dict(color="white", ha="center", va="center", family="monospace")
     k = 7.4   # mm cap height to points (approx.)
-    for t, y, size, th in centre_lines(n, "COMPONENT SIDE", usable_width(g["xs"], ht)):
-        ax.text(0, y, t, fontsize=size * k, weight="bold" if size >= 3.5 else "normal", **kw)
-    (ax0, ay0), (ax1, ay1), hs = ARROW
-    ax.annotate("", xy=(ax1, ay1), xytext=(ax0, ay0), arrowprops=dict(arrowstyle="-|>", color="white", lw=2.5, mutation_scale=20))
-    sx = (g["xs"][-1] + TRACE_W / 2 + ht) / 2
-    sy = (TP_Y + TP_D / 2 + g["y1"]) / 2
-    sl = g["y1"] - (TP_Y + TP_D / 2) - 2.0
-    ax.text(-sx, sy, g["cards"], fontsize=side_size(g["cards"], sl) * k, rotation=90, **kw)
-    ax.text(sx, sy, RIGHT, fontsize=side_size(RIGHT, sl) * k, rotation=90, **kw)
-    ax.set_xlim(-ht - 6, ht + 6)
-    ax.set_ylim(LENGTH + 5, -8)
-    ax.set_aspect("equal")
-    ax.set_title(f"RB{n} {VERSION} preview, component side (mm)", fontsize=10)
-    ax.set_xlabel("connector edge at top, finger tip at bottom", fontsize=8)
+    for ax, side, name in zip(axs, "FB", ("component side", "rear side, seen from the back")):
+        ax.add_patch(Polygon(outline, closed=True, fc="#1f3b2d", ec="black", lw=1.5))
+        for x in g["xs"]:
+            ax.add_patch(Rectangle((x - TRACE_W / 2, g["cy"]), TRACE_W, g["fy"] - g["cy"], fc="#3f6b52", ec="none"))
+            ax.add_patch(Rectangle((x - FINGER_W / 2, g["fy"] - FINGER_L / 2), FINGER_W, FINGER_L, fc="#d4af37", ec="none"))
+            ax.add_patch(Rectangle((x - CONN_W / 2, g["cy"] - CONN_L / 2), CONN_W, CONN_L, fc="#c0c0c0", ec="none"))
+            ax.add_patch(Circle((x, TP_Y), TP_D / 2, fc="#c0c0c0", ec="none"))
+        for t, y, size, th in centre_lines(n, side, usable_width(g["xs"], ht, side)):
+            ax.text(0, y, t, fontsize=size * k, weight="bold" if size >= 3.5 else "normal", **kw)
+        (ax0, ay0), (ax1, ay1), hs = ARROWS[side]
+        ax.annotate("", xy=(ax1, ay1), xytext=(ax0, ay0),
+                    arrowprops=dict(arrowstyle="-|>", color="white", lw=2.5, mutation_scale=20))
+        if side == "B":
+            sx = (g["xs"][-1] + TRACE_W / 2 + ht) / 2
+            sy = (TP_Y + TP_D / 2 + g["y1"]) / 2
+            sl = g["y1"] - (TP_Y + TP_D / 2) - 2.0
+            ax.text(-sx, sy, g["cards"], fontsize=side_size(g["cards"], sl) * k, rotation=90, **kw)
+            ax.text(sx, sy, RIGHT, fontsize=side_size(RIGHT, sl) * k, rotation=90, **kw)
+        ax.set_xlim(-ht - 6, ht + 6)
+        ax.set_ylim(LENGTH + 5, -8)
+        ax.set_aspect("equal")
+        ax.set_title(f"RB{n} {VERSION}, {name}", fontsize=10)
     fig.tight_layout()
-    fig.savefig(path, dpi=150)
+    fig.savefig(path, dpi=130)
 
 
 def main():

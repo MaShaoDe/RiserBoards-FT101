@@ -17,7 +17,8 @@ For cards: PB-1180B (HF IF), PB-1181B (RF amplifier), PB-1314 (regulator)
 | `gerber/` | The same Gerber files, unpacked |
 | `gerber-front.png`, `gerber-back.png` | Rendered from the Gerber files |
 | `preview.png` | Quick preview from the generator |
-| `riser-2x18_V0.2.kicad_pcb`, `preview_V0.2.png` | V0.2 (new silkscreen, see CHANGELOG), Gerber files pending |
+| `riser-2x18_V0.3.kicad_pcb`, `preview_V0.3.png` | V0.3, reduced silkscreen (see CHANGELOG), Gerber files pending. Supersedes V0.2 (never produced). |
+| `riser-2x18_V0.2.kicad_pcb`, `preview_V0.2.png` | V0.2, not produced |
 | `../tools/gen_riser.py` | Generator. `python3 gen_riser.py 18` rebuilds the board file and `preview.png`. |
 
 ## Board
