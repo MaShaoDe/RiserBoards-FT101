@@ -71,7 +71,7 @@ Finger zone: 11 mm long (insertion depth 8 to 10 mm plus 1 mm reserve), measured
 | Silkscreen, component side | From V0.3: type name (e.g. RB18), "RISERBOARD FOR / YAESU TRANSCEIVERS", "COMPONENT SIDE" with arrow, "TO RADIO". Nothing else. |
 | Silkscreen, rear side | From V0.3: type name, "RISERBOARD FOR / YAESU TRANSCEIVERS", "FT-101 SERIES / SOMMERKAMP FT-277 SERIES", copyright and license, "REAR SIDE" with arrow, "TO RADIO". Side edges: card names without revision letter (e.g. PB-1180) and "github.com/MaShaoDe". Texts scaled to the board width, at least 1 mm high. |
 | Insulation | Solder mask on both sides over all traces, green or black (matt is not offered in the JLCPCB standard service). Open only at fingers, connector pads and test pads. No extra lacquer needed. Protects against scratches and accidental touch at low voltage, it is not a high voltage insulation. |
-| Robustness | 2 mm traces, copper at least 0.5 mm from the board edge (KiCad default), rounded corners |
+| Robustness | 2 mm traces, copper at least 0.5 mm from the board edge, rounded corners |
 | Fingers | Electroplated hard gold on nickel, 30 degree chamfer, no solder mask, pads 0.6 mm back from the tip |
 | Manufacturing | Shenzhen PCB makers (JLCPCB, PCBWay), bare boards only |
 | Assembly | Connectors bought from a distributor and soldered by hand by the builder. Reason: JLCPCB requires 2.5 mm from part body to board edge and has no 3.96 mm extender connector in its library. |

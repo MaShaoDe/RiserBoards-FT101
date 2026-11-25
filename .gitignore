@@ -1,2 +1,10 @@
 __pycache__/
 *.pyc
+
+# Design files are not published, Gerber files only
+*.kicad_pcb
+*.kicad_pro
+*.kicad_prl
+*.kicad_sch
+fp-info-cache
+hardware/tools/

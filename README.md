@@ -27,17 +27,17 @@ The number in the name is the count of contacts per side. That is also how to pi
 
 | Riser | Contacts | Finger zone | Cards | Status |
 |---|---|---|---|---|
-| [RB10](hardware/riser-2x10) | 2x10 | 42 mm | PB-1292 noise blanker | V0.1 Gerber ready, untested |
-| [RB14](hardware/riser-2x14) | 2x14 | 57 mm | PB-1184A modulator and oscillator | V0.1 Gerber ready, untested |
-| [RB18](hardware/riser-2x18) | 2x18 | 73 mm | PB-1180B HF IF, PB-1181B RF, PB-1314 regulator | **V0.1 prototype ordered** |
-| [RB22](hardware/riser-2x22) | 2x22 | 89 mm | PB-1183B IF, PB-1315A AF | V0.1 Gerber ready, untested |
+| [RB10](hardware/riser-2x10) | 2x10 | 42 mm | PB-1292 noise blanker | V0.3 in production |
+| [RB14](hardware/riser-2x14) | 2x14 | 57 mm | PB-1184A modulator and oscillator | V0.3 in production |
+| [RB18](hardware/riser-2x18) | 2x18 | 73 mm | PB-1180B HF IF, PB-1181B RF, PB-1314 regulator | V0.1 prototype built, V0.3 in production |
+| [RB22](hardware/riser-2x22) | 2x22 | 89 mm | PB-1183B IF, PB-1315A AF | V0.3 in production |
 
 Card names vary between production runs. If your card has the right width, it fits.
 
 ## Build one in four steps
 
-1. **Download** the Gerber ZIP of your riser: [RB10](hardware/riser-2x10/RB10_V0.1_gerber.zip), [RB14](hardware/riser-2x14/RB14_V0.1_gerber.zip), [RB18](hardware/riser-2x18/RB18_V0.1_gerber.zip) or [RB22](hardware/riser-2x22/RB22_V0.1_gerber.zip).
-2. **Order** bare boards at JLCPCB or a similar maker. Settings are in [docs/ordering.md](docs/ordering.md). The one thing you must not forget: **Gold Fingers: Yes**.
+1. **Download** the Gerber ZIP of your riser: [RB10](hardware/riser-2x10/RB10_V0.3_gerber.zip), [RB14](hardware/riser-2x14/RB14_V0.3_gerber.zip), [RB18](hardware/riser-2x18/RB18_V0.3_gerber.zip) or [RB22](hardware/riser-2x22/RB22_V0.3_gerber.zip).
+2. **Order** bare boards at the PCB maker of your choice. The fabrication specification is in [docs/ordering.md](docs/ordering.md). The one thing you must not forget: **gold fingers**, 1.6 mm, ENIG.
 3. **Buy** one card edge connector per board, see [docs/bom.md](docs/bom.md).
 4. **Solder** the connector and start measuring, see [docs/assembly.md](docs/assembly.md).
 
@@ -59,15 +59,15 @@ The riser makes the signal path about 10 cm longer. Supply voltages, bias and au
 ## Contents
 
 - [docs/specification.md](docs/specification.md): measurements, design decisions, open questions
-- [docs/ordering.md](docs/ordering.md): Gerber export and order settings
+- [docs/ordering.md](docs/ordering.md): fabrication specification for any PCB maker
 - [docs/bom.md](docs/bom.md): parts to buy
 - [docs/assembly.md](docs/assembly.md): soldering, checking and using the riser
-- `hardware/`: one folder per riser with KiCad board, Gerber files and pictures
-- `hardware/tools/gen_riser.py`: generator for all variants (`python3 gen_riser.py 10|14|18|22`)
+- `hardware/`: one folder per riser with the Gerber ZIP and a picture of both sides
+- `hardware/archive/`: Gerber files of the first RB18 prototype (V0.1)
 
 ## Licenses
 
-- Hardware (KiCad files, Gerber files, generator): CERN-OHL-P-2.0
+- Hardware (Gerber files): CERN-OHL-P-2.0
 - Documentation and pictures: CC-BY-4.0
 
 See [LICENSE.md](LICENSE.md). You may build, sell and modify the boards. If you change the design, please give it a name of your own and do not call it RB10, RB14, RB18 or RB22, so that the tested original stays recognisable.

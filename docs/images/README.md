@@ -8,6 +8,6 @@ Photos for [assembly.md](../assembly.md). Licensed CC-BY-4.0. JPEG, about 1600 p
 | `02-connector-fitted.jpg` | Connector pushed onto the edge, side view, pins on the pads |
 | `03-soldered.jpg` | Finished solder joints |
 | `04-in-use.jpg` | Riser with a card in an FT-101 or FT-277 |
-| `title.png` | Title image of the README (RB18 V0.3, both sides, drawn by the generator) |
+| `title.png` | Title image of the README (RB18 V0.3, both sides, drawn from the design data) |
 
 Until the photos are added, the links in assembly.md show as missing images.
