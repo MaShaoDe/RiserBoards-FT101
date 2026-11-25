@@ -60,18 +60,18 @@ def centre_lines(n, side, usable=None):
             ("COMPONENT SIDE", 57, 4.5, 0.6, "side"),
             ("TO RADIO", 79, 3.5, 0.5, "radio"),
         ]
-    else:               # rear side: all the details
+    else:               # rear side: all details in small, calm text
         lines = [
-            (f"RB{n}", 24, 7.0, 1.0, "rb"),
-            ("RISERBOARD FOR", 33, 3.5, 0.5, "title"),
-            ("YAESU TRANSCEIVERS", 38, 3.5, 0.5, "title"),
-            ("FT-101 SERIES", 43.5, 2.5, 0.35, "series"),
-            ("SOMMERKAMP FT-277 SERIES", 47.5, 2.5, 0.35, "series"),
-            (COPY1, 53, 1.5, None, "copy"),
-            (COPY2, 55.5, 1.5, None, "copy"),
-            (LIC, 58, 1.5, None, "copy"),
-            ("REAR SIDE", 65, 4.5, 0.6, "side"),
-            ("TO RADIO", 85, 3.5, 0.5, "radio"),
+            (f"RB{n}", 24, 2.5, 0.35, "head"),
+            ("RISERBOARD FOR", 28.5, 2.5, 0.35, "head"),
+            ("YAESU TRANSCEIVERS", 32, 2.5, 0.35, "head"),
+            ("FT-101 SERIES", 36.5, 2.5, 0.35, "head"),
+            ("SOMMERKAMP FT-277 SERIES", 40, 2.5, 0.35, "head"),
+            (COPY1, 46, 1.5, None, "copy"),
+            (COPY2, 48.5, 1.5, None, "copy"),
+            (LIC, 51, 1.5, None, "copy"),
+            ("REAR SIDE", 62, 4.5, 0.6, "side"),
+            ("TO RADIO", 83, 3.5, 0.5, "radio"),
         ]
     if usable is None:
         return [l[:4] for l in lines]
@@ -93,7 +93,7 @@ def usable_width(xs, ht, side="B"):
         return 2 * (ht - 2.0)
     side_x = (xs[-1] + TRACE_W / 2 + ht) / 2
     return 2 * (side_x - SIDE_SIZE / 2 - 1.0)
-ARROWS = {"F": ((0, 62), (0, 74.5), 2.5), "B": ((0, 69.5), (0, 80.5), 2.5)}   # start, tip, head
+ARROWS = {"F": ((0, 62), (0, 74.5), 2.5), "B": ((0, 67), (0, 78.5), 2.5)}   # start, tip, head
 
 OX, OY = 100.0, 40.0    # placement on the KiCad sheet
 
