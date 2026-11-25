@@ -36,7 +36,7 @@ VARIANTS = {
     22: dict(width=89.0, cards="PB-1183  PB-1315"),
 }
 
-RIGHT = "GitHub: RiserBoards-FT101"   # short, people search for it
+RIGHT = "github.com/MaShaoDe"   # user page, short enough for all variants
 COPY1 = "Copyright 2026"
 COPY2 = "FerienBSD aka Marcel Sauder"
 LIC = f"{VERSION}  CERN-OHL-P-2.0"

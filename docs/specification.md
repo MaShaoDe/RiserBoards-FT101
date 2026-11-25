@@ -69,7 +69,7 @@ Finger zone: 11 mm long (insertion depth 8 to 10 mm plus 1 mm reserve), measured
 | Pin numbers | Not printed. The technician reads the number at the pin of the plugged card. Reason: the numbering direction differs between cards (see below) and card revisions are unknown. |
 | Type names | RB10, RB14, RB18, RB22 (RB = riser board, number = contacts per side) |
 | Silkscreen, component side | From V0.3: type name (e.g. RB18), "RISERBOARD FOR / YAESU TRANSCEIVERS", "COMPONENT SIDE" with arrow, "TO RADIO". Nothing else. |
-| Silkscreen, rear side | From V0.3: type name, "RISERBOARD FOR / YAESU TRANSCEIVERS", "FT-101 SERIES / SOMMERKAMP FT-277 SERIES", copyright and license, "REAR SIDE" with arrow, "TO RADIO". Side edges: card names without revision letter (e.g. PB-1180) and "GitHub: RiserBoards-FT101". Texts scaled to the board width, at least 1 mm high. |
+| Silkscreen, rear side | From V0.3: type name, "RISERBOARD FOR / YAESU TRANSCEIVERS", "FT-101 SERIES / SOMMERKAMP FT-277 SERIES", copyright and license, "REAR SIDE" with arrow, "TO RADIO". Side edges: card names without revision letter (e.g. PB-1180) and "github.com/MaShaoDe". Texts scaled to the board width, at least 1 mm high. |
 | Insulation | Solder mask on both sides over all traces, green or black (matt is not offered in the JLCPCB standard service). Open only at fingers, connector pads and test pads. No extra lacquer needed. Protects against scratches and accidental touch at low voltage, it is not a high voltage insulation. |
 | Robustness | 2 mm traces, copper at least 0.5 mm from the board edge (KiCad default), rounded corners |
 | Fingers | Electroplated hard gold on nickel, 30 degree chamfer, no solder mask, pads 0.6 mm back from the tip |
